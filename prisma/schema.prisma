@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  title       String
+  company     String
+  location    String
+  type        String
+  level       String
+  description String
+  skills      String[]
+  salary      String?
+  remote      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  matches     Match[]
+}
+
+model UserProfile {
+  id             String        @id @default(cuid())
+  name           String
+  email          String?
+  skills         String[]
+  experience     String
+  preferredRoles String[]
+  location       String?
+  remoteOnly     Boolean       @default(false)
+  bio            String?
+  createdAt      DateTime      @default(now())
+  matches        Match[]
+  letters        CoverLetter[]
+}
+
+model Match {
+  id        String        @id @default(cuid())
+  score     Int
+  reasoning String
+  jobId     String
+  profileId String
+  job       Job           @relation(fields: [jobId], references: [id])
+  profile   UserProfile   @relation(fields: [profileId], references: [id])
+  createdAt DateTime      @default(now())
+  letters   CoverLetter[]
+}
+
+model CoverLetter {
+  id        String      @id @default(cuid())
+  content   String
+  matchId   String
+  profileId String
+  match     Match       @relation(fields: [matchId], references: [id])
+  profile   UserProfile @relation(fields: [profileId], references: [id])
+  createdAt DateTime    @default(now())
+}
