@@ -1,3 +1,5 @@
+markdown# AI Job Match Agent
+
 > AI-enhanced job matching platform demonstrating modern recruitment workflows powered by Claude API.
 
 **Status:** 🚧 In active development
@@ -9,57 +11,63 @@
 
 ## Overview
 
-AI Job Match is a demonstration of how Large Language Models can enhance the job search experience. The platform takes a user profile, ranks curated job listings using Claude's reasoning capabilities, and generates personalized cover letters — all with full transparency into the AI's decision process.
+AI Job Match demonstrates how Large Language Models can enhance the job search experience. The platform takes a user profile, ranks curated job listings using Claude's reasoning, and generates personalized cover letters — all with full transparency into the AI's decision process.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | Next.js 16 (App Router), TypeScript, Tailwind CSS |
-| **Backend** | Next.js API Routes, Anthropic SDK |
-| **Database** | PostgreSQL (Supabase) with Prisma ORM |
-| **AI** | Claude Sonnet 4.5 via Anthropic API |
-| **Data Pipeline** | Python (psycopg2) for seed data ingestion |
-| **Deploy** | Vercel |
+| Layer             | Technology                                        |
+| ----------------- | ------------------------------------------------- |
+| **Frontend**      | Next.js 16 (App Router), TypeScript, Tailwind CSS |
+| **Backend**       | Next.js API Routes, Anthropic SDK                 |
+| **Database**      | PostgreSQL (Supabase) with Prisma ORM             |
+| **AI**            | Claude Sonnet 4.5 via Anthropic API               |
+| **Data Pipeline** | Python (psycopg2) for seed data ingestion         |
+| **Deploy**        | Vercel                                            |
 
 ## Architecture
-┌─────────────────┐      ┌──────────────────┐      ┌─────────────────┐
-│   Next.js UI    │─────▶│  API Routes      │─────▶│   Claude API    │
-│  (React + TS)   │      │  (Node runtime)  │      │  (matching, CL) │
-└─────────────────┘      └──────────────────┘      └─────────────────┘
+
+┌─────────────────┐ ┌──────────────────┐ ┌─────────────────┐
+│ Next.js UI │─────▶│ API Routes │─────▶│ Claude API │
+│ (React + TS) │ │ (Node runtime) │ │ (match + letter)│
+└─────────────────┘ └──────────────────┘ └─────────────────┘
 │
 ▼
-┌──────────────────┐      ┌─────────────────┐
-│  Prisma ORM      │◀─────│  Python seeder  │
-│  (Supabase PG)   │      │  (data pipeline)│
-└──────────────────┘      └─────────────────┘
+┌──────────────────┐ ┌─────────────────┐
+│ Prisma ORM │◀─────│ Python seeder │
+│ (Supabase PG) │ │ (data pipeline) │
+└──────────────────┘ └─────────────────┘
 
 The Python script (`scripts/seed_jobs.py`) acts as a **data ingestion layer**. Currently it loads curated demo data; in v2 it will be replaced with real scrapers targeting Infostud, LinkedIn Jobs, and HelloWorld.rs.
 
 ## Features
 
 ### ✅ Implemented
-- [x] PostgreSQL schema with relational models (Job, UserProfile, Match, CoverLetter)
-- [x] Prisma ORM with singleton client pattern
-- [x] Claude API integration with type-safe SDK
-- [x] Python data ingestion script
-- [x] Health-check endpoint (`/api/test`)
+
+- PostgreSQL schema with relational models (Job, UserProfile, Match, CoverLetter)
+- Prisma ORM with singleton client pattern
+- Claude API integration with type-safe SDK
+- Python data ingestion script
+- Health-check endpoint (`/api/test`)
+- Landing page
 
 ### 🚧 In Progress
-- [ ] User profile creation form
-- [ ] AI-powered job matching with score + reasoning
-- [ ] Personalized cover letter generation
+
+- User profile creation form
+- AI-powered job matching with score + reasoning
+- Personalized cover letter generation
 
 ### 📋 Planned (v2)
-- [ ] CV PDF parsing & automated skill extraction
-- [ ] Real job scraping (Selenium + BeautifulSoup)
-- [ ] User authentication & saved profiles
-- [ ] Contextual career assistant chat
-- [ ] Multi-language support (EN/SR)
+
+- CV PDF parsing & automated skill extraction
+- Real job scraping (Selenium + BeautifulSoup)
+- User authentication & saved profiles
+- Contextual career assistant chat
+- Multi-language support (EN/SR)
 
 ## Local Development
 
 ### Prerequisites
+
 - Node.js 22+
 - Python 3.9+
 - Supabase account (free tier)
@@ -68,7 +76,7 @@ The Python script (`scripts/seed_jobs.py`) acts as a **data ingestion layer**. C
 ### Setup
 
 ```bash
-# Clone repo
+# Clone the repository
 git clone https://github.com/rada-ii/ai-job-match.git
 cd ai-job-match
 
@@ -79,34 +87,35 @@ npm install --legacy-peer-deps
 cp .env.example .env
 # Edit .env with your ANTHROPIC_API_KEY, DATABASE_URL, DIRECT_URL
 
-# Run migrations
+# Run database migrations
 npx prisma migrate dev
 
 # Seed demo data
 pip3 install psycopg2-binary python-dotenv
 python3 scripts/seed_jobs.py
 
-# Start dev server
+# Start the dev server
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) and visit `/api/test` to verify the setup.
 
 ## Project Structure
+
 ai-job-match/
 ├── src/
-│   ├── app/
-│   │   ├── api/          # API routes (Claude integration)
-│   │   ├── page.tsx      # Landing page
-│   │   └── layout.tsx
-│   └── lib/
-│       ├── claude.ts     # Anthropic SDK client
-│       └── prisma.ts     # Prisma singleton client
+│ ├── app/
+│ │ ├── api/ # API routes (Claude integration)
+│ │ ├── page.tsx # Landing page
+│ │ └── layout.tsx
+│ └── lib/
+│ ├── claude.ts # Anthropic SDK client
+│ └── prisma.ts # Prisma singleton client
 ├── prisma/
-│   ├── schema.prisma     # Database schema
-│   └── migrations/
+│ ├── schema.prisma # Database schema
+│ └── migrations/
 ├── scripts/
-│   └── seed_jobs.py      # Python data ingestion
+│ └── seed_jobs.py # Python data ingestion
 └── README.md
 
 ## Design Decisions

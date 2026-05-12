@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { claude, CLAUDE_MODEL } from "@/app/lib/claude";
-import { prisma } from "@/app/lib/prisma";
+import { claude, CLAUDE_MODEL } from "@/lib/claude";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
