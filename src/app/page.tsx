@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import ProfileForm from "@/components/ProfileForm";
 import MatchesList from "@/components/MatchesList";
 import CoverLetterModal from "@/components/CoverLetterModal";
+import ChatBot from "@/components/ChatBot";
 
 type View = "form" | "matches";
 
@@ -42,7 +43,7 @@ export default function Home() {
           {view === "matches" && (
             <button
               onClick={handleReset}
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-[#d97757] bg-stone-900 hover:bg-[#d97757] hover:text-stone-900 rounded-lg transition-all duration-300 shadow-sm"
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-[#d97757] bg-stone-900 hover:bg-stone-800 rounded-lg transition shadow-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               New search
@@ -51,14 +52,11 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Main content — flex-1 da gura footer na dno */}
       <main className="flex-1">
         <div className="max-w-3xl mx-auto px-6 py-8 sm:py-12">
           {view === "form" && (
             <>
-              {/* Hero card */}
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-stone-900 via-stone-800 to-orange-950 px-8 py-12 sm:px-12 sm:py-16 mb-8 shadow-xl">
-                {/* Decorative accent dots */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500 opacity-15 rounded-full blur-3xl" />
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500 opacity-10 rounded-full blur-3xl" />
 
@@ -112,6 +110,9 @@ export default function Home() {
           onClose={() => setSelectedMatchId(null)}
         />
       )}
+
+      {/* Floating chat bot — uvek dostupan */}
+      <ChatBot profileId={profileId} />
     </div>
   );
 }
